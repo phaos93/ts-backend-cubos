@@ -57,7 +57,9 @@ export const atualizarCarros = async (req: Request, res: Response) => {
                 return res.status(404).json({ mensagem: 'carro não encontrado' });
             }
             
-            await knex<Omit<Carro, 'id'>>('carros').update({ marca, modelo, cor, ano, valor });
+            await knex<Carro>('carros')
+                .where({ id: Number(id) })
+                .update({ marca, modelo, cor, ano, valor });
 
             return res.status(204).send();
     } catch {
