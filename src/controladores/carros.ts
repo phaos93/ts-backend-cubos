@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { knex } from '../../bancodedados/conexao'
+import { knex } from '../bancodedados/conexao'
 import { Carro } from '../tipos'
 
 export const listarCarros = async (_: Request, res: Response) => {
