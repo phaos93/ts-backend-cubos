@@ -46,7 +46,23 @@ export const cadastrarCarros = async (req: Request, res: Response) => {
 }
 
 export const atualizarCarros = async (req: Request, res: Response) => {
-    
+    const { id } = req.params;
+    const { marca, modelo, cor, ano, valor } = req.body;
+        try {
+            const carro = await knex<Carro>('carros')
+                .where({ id: Number(id) })
+                .first();
+            
+            if (!carro) {
+                return res.status(404).json({ mensagem: 'carro não encontrado' });
+            }
+            
+            await knex<Omit<Carro, 'id'>>('carros').update({ marca, modelo, cor, ano, valor });
+
+            return res.status(204).send();
+    } catch {
+        return res.status(500).json({ mensagem: 'erro interno do servidor' });
+    }
 }
 
 export const excluirCarros = async (req: Request, res: Response) => {
